@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+// 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+
+// 请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+
+// 示例 1：
+
+// 输入：nums = [100,4,200,1,3,2]
+// 输出：4
+// 解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+// 示例 2：
+
+// 输入：nums = [0,3,7,2,5,8,4,6,0,1]
+// 输出：9
+// 示例 3：
+
+// 输入：nums = [1,0,1,2]
+// 输出：3
+
+// 提示：
+
+// 0 <= nums.length <= 105
+// -109 <= nums[i] <= 109
+class Solution
+{
+public:
+    int longestConsecutive(vector<int> &nums)
+    {
+        // 要求时间复杂度为 O(n)，遍历一遍就是O(n)，因此要从遍历下手。
+        // 使用unordered_set存储所有元素，这样每次遍历一个元素的时间复杂度为O(1)，总的时间复杂度为O(n)。
+        unordered_set<int> numSet(nums.begin(), nums.end());
+        int longestStreak = 0;
+
+        for (int num : numSet)
+        {
+            if (numSet.find(num - 1) == numSet.end()) // 如果num-1不存在，说明num是一个序列的起点
+            {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (numSet.find(currentNum + 1) != numSet.end())
+                {
+                    currentNum++;
+                    currentStreak++;
+                }
+
+                longestStreak = max(longestStreak, currentStreak);
+            }
+        }
+        return longestStreak;
+    }
+};
