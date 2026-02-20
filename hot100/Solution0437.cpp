@@ -66,7 +66,7 @@ private:
         addToPath(node->right, currentSum);
     }
 };
-// 方法二：前序遍历：每个节点作为路径头+左节点作为中途点+右节点作为中途点
+// 方法二：每个节点作为路径头+左节点作为中途点+右节点作为中途点
 class Solution2
 {
 private:
@@ -85,14 +85,14 @@ public:
     {
         if (!root)
             return 0;
-        int result = rootSum(root, targetSum);
+        int result = rootSum(root, (long long) targetSum);
         result += pathSum(root->left, targetSum);
         result += pathSum(root->right, targetSum);
         return result;
     }
 
 private:
-    int rootSum(TreeNode *node, int targetSum)
+    int rootSum(TreeNode *node, long long targetSum)
     {
         if (!node)
             return 0;

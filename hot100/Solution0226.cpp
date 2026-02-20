@@ -18,6 +18,8 @@ using namespace std;
 
 // 树中节点数目范围在 [0, 100] 内
 // -100 <= Node.val <= 100
+#include <queue>
+
 class Solution
 {
 private:
@@ -40,6 +42,27 @@ public:
         TreeNode *right = invertTree(root->right);
         root->left = right;
         root->right = left;
+        return root;
+    }
+
+    TreeNode *invertTreeIterative(TreeNode *root)
+    {
+        if (root == nullptr)
+            return nullptr;
+        queue<TreeNode *> q;
+        q.push(root);
+        while (!q.empty())
+        {
+            TreeNode *node = q.front();
+            q.pop();
+            TreeNode *temp = node->left;
+            node->left = node->right;
+            node->right = temp;
+            if (node->left)
+                q.push(node->left);
+            if (node->right)
+                q.push(node->right);
+        }
         return root;
     }
 };
