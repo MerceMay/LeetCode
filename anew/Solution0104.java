@@ -9,12 +9,10 @@ import java.util.ArrayDeque;
 
 public class Solution0104 {
     private static class TreeNode {
-        int val;
         TreeNode left;
         TreeNode right;
 
-        TreeNode(int val) {
-            this.val = val;
+        TreeNode() {
         }
     }
 
@@ -49,11 +47,11 @@ public class Solution0104 {
     }
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(15);
-        root.right.right = new TreeNode(7);
+        TreeNode root = new TreeNode();
+        root.left = new TreeNode();
+        root.right = new TreeNode();
+        root.right.left = new TreeNode();
+        root.right.right = new TreeNode();
         Solution0104 solution = new Solution0104();
         System.out.println(solution.maxDepth(root)); // 输出: 3
         System.out.println(solution.maxDepthIterative(root)); // 输出: 3

@@ -6,12 +6,10 @@ package anew;
 // 两节点之间路径的 长度 由它们之间边数表示。
 public class Solution0543 {
     private static class TreeNode {
-        int val;
         TreeNode left;
         TreeNode right;
 
-        TreeNode(int val) {
-            this.val = val;
+        TreeNode() {
         }
     }
 
@@ -34,11 +32,11 @@ public class Solution0543 {
 
     public static void main(String[] args) {
         Solution0543 solution = new Solution0543();
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
+        TreeNode root = new TreeNode();
+        root.left = new TreeNode();
+        root.right = new TreeNode();
+        root.left.left = new TreeNode();
+        root.left.right = new TreeNode();
         System.out.println(solution.diameterOfBinaryTree(root)); // 输出: 3
     }
 }
