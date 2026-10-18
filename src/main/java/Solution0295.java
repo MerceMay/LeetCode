@@ -13,59 +13,13 @@ import java.util.*;
 //double findMedian() 返回到目前为止所有元素的中位数。与实际答案相差 10-5 以内的答案将被接受。
 
 public class Solution0295 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        String line1 = sc.nextLine();
-        String line2 = sc.nextLine();
-
-        String[] operations = Arrays.stream(
-                        line1.substring(1, line1.length() - 1).split(","))
-                .map(s -> s.trim().replace("\"", ""))
-                .toArray(String[]::new);
-
-        int[] argList = Arrays.stream(
-                        line2.replaceAll("[\\[\\]]", "").split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .mapToInt(Integer::parseInt)
-                .toArray();
-
-        MedianFinder medianFinder = null;
-        int argIndex = 0;
-
-        System.out.print("[");
-        for (int i = 0; i < operations.length; i++) {
-            if (i > 0) {
-                System.out.print(", ");
-            }
-
-            switch (operations[i]) {
-                case "MedianFinder":
-                    medianFinder = new MedianFinder();
-                    System.out.print("null");
-                    break;
-
-                case "addNum":
-                    medianFinder.addNum(argList[argIndex++]);
-                    System.out.print("null");
-                    break;
-
-                case "findMedian":
-                    System.out.print(medianFinder.findMedian());
-                    break;
-            }
-        }
-        System.out.print("]");
-    }
-
-    public static class MedianFinder {
+    class MedianFinder {
         private PriorityQueue<Integer> minHeap;
         private PriorityQueue<Integer> maxHeap;
 
         public MedianFinder() {
             minHeap = new PriorityQueue<>();
-            maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+            maxHeap = new PriorityQueue<>((a, b) -> b - a);
         }
 
         public void addNum(int num) {

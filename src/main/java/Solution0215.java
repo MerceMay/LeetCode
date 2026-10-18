@@ -7,17 +7,6 @@ import java.util.*;
 //你必须设计并实现时间复杂度为 O(n) 的算法解决此问题。
 
 public class Solution0215 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        int k = sc.nextInt();
-        int[] nums = Arrays.stream(line.substring(1, line.length() - 1).split(","))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        System.out.println(findKthLargest(nums, k));
-        System.out.println(findKthLargest2(nums, k));
-        System.out.println(findKthLargest3(nums, k));
-    }
 
     public static int findKthLargest(int[] nums, int k) {
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);

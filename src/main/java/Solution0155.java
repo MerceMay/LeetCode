@@ -12,69 +12,13 @@ import java.util.*;
 //int getMin() 获取堆栈中的最小元素。
 
 public class Solution0155 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        String line1 = sc.nextLine();
-        String line2 = sc.nextLine();
-
-        String[] operations = Arrays.stream(
-                        line1.substring(1, line1.length() - 1).split(","))
-                .map(s -> s.trim().replace("\"", ""))
-                .toArray(String[]::new);
-
-        int[] argList = Arrays.stream(
-                        line2.replaceAll("[\\[\\]]", "").split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .mapToInt(Integer::parseInt)
-                .toArray();
-
-        MinStack minStack = null;
-        int argIndex = 0;
-
-        System.out.print("[");
-        for (int i = 0; i < operations.length; i++) {
-            if (i > 0) {
-                System.out.print(", ");
-            }
-
-            switch (operations[i]) {
-                case "MinStack":
-                    minStack = new MinStack();
-                    System.out.print("null");
-                    break;
-
-                case "push":
-                    minStack.push(argList[argIndex++]);
-                    System.out.print("null");
-                    break;
-
-                case "pop":
-                    minStack.pop();
-                    System.out.print("null");
-                    break;
-
-                case "top":
-                    System.out.print(minStack.top());
-                    break;
-
-                case "getMin":
-                    System.out.print(minStack.getMin());
-                    break;
-            }
-        }
-        System.out.print("]");
-    }
-
-    public static class MinStack {
-
+    class MinStack {
         private Deque<Integer> stack;
         private Deque<Integer> minValStack;
 
         public MinStack() {
-            stack = new LinkedList<>();
-            minValStack = new LinkedList<>();
+            stack = new ArrayDeque<>();
+            minValStack = new ArrayDeque<>();
             minValStack.push(Integer.MAX_VALUE);
         }
 

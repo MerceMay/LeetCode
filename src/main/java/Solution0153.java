@@ -10,25 +10,12 @@ import java.util.*;
 //你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。
 
 public class Solution0153 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        int[] nums = Arrays.stream(line.substring(1, line.length() - 1).split(","))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        System.out.println(findMin(nums));
-    }
-
-    public static int findMin(int[] nums) {
-        if (nums[0] <= nums[nums.length - 1]) { // 为了排除没有旋转的特殊情况
-            return nums[0];
-        }
-
-        int left = 0, right = nums.length;
-
+    public int findMin(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        int last = nums[nums.length - 1];
         while (left < right) {
-            int mid = left + ((right - left) >> 1);
-            if (mid < nums.length && nums[mid] < nums[0]) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] <= last) {
                 right = mid;
             } else {
                 left = mid + 1;
@@ -36,5 +23,4 @@ public class Solution0153 {
         }
         return nums[left];
     }
-
 }

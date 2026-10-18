@@ -10,46 +10,14 @@ import java.util.*;
 
 
 public class Solution0208 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String operationsLine = sc.nextLine();
-        String valuesLine = sc.nextLine();
+    class Trie {
 
-        String[] operations = operationsLine.substring(1, operationsLine.length() - 1).replace("\"", "").split(",\\s*");
-        String[] values = valuesLine.substring(1, valuesLine.length() - 1).split("],\\s*\\[");
-
-        Trie trie = null;
-        List<Object> result = new ArrayList<>();
-        for (int i = 0; i < operations.length; i++) {
-            String operation = operations[i].trim();
-            String value = values[i].replace("[", "").replace("]", "").replace("\"", "").trim();
-            switch (operation) {
-                case "Trie":
-                    trie = new Trie();
-                    result.add(null);
-                    break;
-                case "insert":
-                    trie.insert(value);
-                    result.add(null);
-                    break;
-                case "search":
-                    result.add(trie.search(value));
-                    break;
-                case "startWith":
-                    result.add(trie.startsWith(value));
-                    break;
-            }
+        private class TrieNode {
+            int pass = 0;
+            int end = 0;
+            TrieNode[] nexts = new TrieNode[26];
         }
-        System.out.println(result);
-    }
 
-    private static class TrieNode {
-        int pass = 0;
-        int end = 0;
-        TrieNode[] nexts = new TrieNode[26];
-    }
-
-    public static class Trie {
         private TrieNode root;
 
         public Trie() {
@@ -101,23 +69,6 @@ public class Solution0208 {
                 cur = cur.nexts[index];
             }
             return true;
-        }
-
-        public void delete(String word) {
-            if (!search(word)) {
-                return;
-            }
-            TrieNode cur = root;
-            cur.pass--;
-            for (char c : word.toCharArray()) {
-                int index = c - 'a';
-                if (--cur.nexts[index].pass == 0) {
-                    cur.nexts[index] = null;
-                    return;
-                }
-                cur = cur.nexts[index];
-            }
-            cur.end--;
         }
     }
 }

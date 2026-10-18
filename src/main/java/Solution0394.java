@@ -11,59 +11,9 @@ import java.util.*;
 //测试用例保证输出的长度不会超过 105。
 
 public class Solution0394 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        System.out.println(decodeString(s));
-        System.out.println(decodeString2(s));
-    }
-
-    public static String decodeString(String s) {
-        Deque<String> stack = new LinkedList<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (Character.isDigit(c)) {
-                StringBuilder num = new StringBuilder();
-                while (i < s.length() && Character.isDigit(s.charAt(i))) {
-                    num.append(s.charAt(i));
-                    i++;
-                }
-                stack.push(num.toString());
-                i--;
-            } else if (Character.isAlphabetic(c)) {
-                StringBuilder str = new StringBuilder();
-                while (i < s.length() && Character.isAlphabetic(s.charAt(i))) {
-                    str.append(s.charAt(i));
-                    i++;
-                }
-                stack.push(str.toString());
-                i--;
-            } else if (c == '[') {
-                stack.push("[");
-            } else {
-                StringBuilder str = new StringBuilder();
-                while (!stack.peek().equals("[")) {
-                    str.insert(0, stack.pop());
-                }
-                stack.pop();
-                int mul = Integer.parseInt(stack.pop());
-                StringBuilder temp = new StringBuilder();
-                for (int j = 0; j < mul; j++) {
-                    temp.append(str);
-                }
-                stack.push(temp.toString());
-            }
-        }
-        StringBuilder result = new StringBuilder();
-        while (!stack.isEmpty()) {
-            result.insert(0, stack.pop());
-        }
-        return result.toString();
-    }
-
-    public static String decodeString2(String s) {
-        Deque<StringBuilder> strStack = new LinkedList<>();
-        Deque<Integer> numStack = new LinkedList<>();
+    public String decodeString(String s) {
+        Deque<StringBuilder> strStack = new ArrayDeque<>();
+        Deque<Integer> numStack = new ArrayDeque<>();
         StringBuilder curStr = new StringBuilder();
         int curNum = 0;
         for (char c : s.toCharArray()) {
@@ -77,7 +27,10 @@ public class Solution0394 {
             } else if (c == ']') {
                 int repeat = numStack.pop();
                 StringBuilder preStr = strStack.pop();
-                curStr = preStr.append(String.valueOf(curStr).repeat(repeat));
+                for (int i = 0; i < repeat; i++) {
+                    preStr.append(curStr);
+                }
+                curStr = preStr;
             } else {
                 curStr.append(c);
             }

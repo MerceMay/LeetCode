@@ -5,27 +5,12 @@ import java.util.*;
 //单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
 
 public class Solution0079 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        String word = sc.nextLine();
-        char[][] board = Arrays.stream(line.substring(2, line.length() - 2).split("],\\["))
-                .map(s -> s.replace("'", "")
-                        .replace(",", "")
-                        .toCharArray())
-                .toArray(char[][]::new);
-        char[][] deepCopy = Arrays.stream(board).map(char[]::clone).toArray(char[][]::new);
-        System.out.println(exist(board, word));
-        System.out.println(exist2(deepCopy, word));
-    }
+    private boolean exist;
 
-    private static boolean exist = false;
-
-    public static boolean exist(char[][] board, String word) {
+    public boolean exist(char[][] board, String word) {
         exist = false;
-        int m = board.length, n = board[0].length;
-        for (int i = 0; i < m && !exist; i++) {
-            for (int j = 0; j < n && !exist; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j] == word.charAt(0)) {
                     backtrack(board, word, 0, i, j);
                 }
@@ -34,7 +19,7 @@ public class Solution0079 {
         return exist;
     }
 
-    private static void backtrack(char[][] board, String word, int index, int i, int j) {
+    public void backtrack(char[][] board, String word, int index, int i, int j) {
         if (exist) {
             return;
         }
@@ -57,19 +42,20 @@ public class Solution0079 {
         board[i][j] = temp;
     }
 
-    public static boolean exist2(char[][] board, String word) {
-        int m = board.length, n = board[0].length;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (backtrack2(board, word, 0, i, j)) {
-                    return true;
+    public boolean exist2(char[][] board, String word) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    if (backtrack2(board, word, 0, i, j)) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    private static boolean backtrack2(char[][] board, String word, int index, int i, int j) {
+    public boolean backtrack2(char[][] board, String word, int index, int i, int j) {
         if (index == word.length()) {
             return true;
         }
@@ -78,11 +64,10 @@ public class Solution0079 {
         }
         char temp = board[i][j];
         board[i][j] = '#';
-        boolean found =
-                backtrack2(board, word, index + 1, i + 1, j) ||
-                        backtrack2(board, word, index + 1, i - 1, j) ||
-                        backtrack2(board, word, index + 1, i, j + 1) ||
-                        backtrack2(board, word, index + 1, i, j - 1);
+        boolean found = backtrack2(board, word, index + 1, i + 1, j) ||
+                backtrack2(board, word, index + 1, i - 1, j) ||
+                backtrack2(board, word, index + 1, i, j + 1) ||
+                backtrack2(board, word, index + 1, i, j - 1);
         board[i][j] = temp;
         return found;
     }

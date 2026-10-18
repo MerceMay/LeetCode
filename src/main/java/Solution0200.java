@@ -7,148 +7,103 @@ import java.util.*;
 //此外，你可以假设该网格的四条边均被水包围。
 
 public class Solution0200 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine().trim();
-            sb.append(line);
-            if (line.equals("]")) {
-                break;
-            }
-        }
-        String input = sb.toString();
-        String[] rows = input.substring(2, input.length() - 2).split("],\\[");
-        char[][] grid = new char[rows.length][];
-        for (int i = 0; i < rows.length; i++) {
-            String[] nums = rows[i].replace("'", "").split(",");
-            grid[i] = new char[nums.length];
-            for (int j = 0; j < nums.length; j++) {
-                grid[i][j] = nums[j].trim().charAt(0);
-            }
-        }
-//        System.out.println(numIslands(grid));
-//        System.out.println(numIslands2(grid));
-        System.out.println(numIslands3(grid));
-    }
-
-    public static int numIslands(char[][] grid) {
-        int m = grid.length;
-        if (m == 0) {
-            return 0;
-        }
-        int n = grid[0].length;
-        int result = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+    public int numsIslands(char[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        int count = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (grid[i][j] == '1') {
-                    result++;
+                    count++;
                     dfs(grid, i, j);
                 }
             }
         }
-        return result;
+        return count;
     }
 
-    private static void dfs(char[][] grid, int i, int j) {
-        int m = grid.length;
-        int n = grid[0].length;
-        grid[i][j] = '0';
+    private void dfs(char[][] grid, int i, int j) {
+        int row = grid.length;
+        int col = grid[0].length;
         if (i - 1 >= 0 && grid[i - 1][j] == '1') dfs(grid, i - 1, j);
-        if (i + 1 < m && grid[i + 1][j] == '1') dfs(grid, i + 1, j);
+        if (i + 1 < row && grid[i + 1][j] == '1') dfs(grid, i + 1, j);
         if (j - 1 >= 0 && grid[i][j - 1] == '1') dfs(grid, i, j - 1);
-        if (j + 1 < n && grid[i][j + 1] == '1') dfs(grid, i, j + 1);
+        if (j + 1 < col && grid[i][j + 1] == '1') dfs(grid, i, j + 1);
     }
 
-    public static int numIslands2(char[][] grid) {
-        int m = grid.length;
-        if (m == 0) {
-            return 0;
-        }
-        int n = grid[0].length;
-        int result = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+    public int numsIslands2(char[][] grid) {
+        int row = grid.length;
+        if (row == 0) return 0;
+        int col = grid[0].length;
+        int count = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (grid[i][j] == '1') {
-                    result++;
+                    count++;
                     grid[i][j] = '0';
                     Queue<int[]> queue = new LinkedList<>();
                     queue.offer(new int[]{i, j});
                     while (!queue.isEmpty()) {
-                        int[] point = queue.poll();
-                        int row = point[0], col = point[1];
-                        if (row - 1 >= 0 && grid[row - 1][col] == '1') {
-                            queue.offer(new int[]{row - 1, col});
-                            grid[row - 1][col] = '0';
+                        int[] cur = queue.poll();
+                        int rowI = cur[0], curJ = cur[1];
+                        if (rowI - 1 >= 0 && grid[rowI - 1][curJ] == '1') {
+                            grid[rowI - 1][curJ] = '0';
+                            queue.offer(new int[]{rowI - 1, curJ});
                         }
-                        if (row + 1 < m && grid[row + 1][col] == '1') {
-                            queue.offer(new int[]{row + 1, col});
-                            grid[row + 1][col] = '0';
+                        if (rowI + 1 < row && grid[rowI + 1][curJ] == '1') {
+                            grid[rowI + 1][curJ] = '0';
+                            queue.offer(new int[]{rowI + 1, curJ});
                         }
-                        if (col - 1 >= 0 && grid[row][col - 1] == '1') {
-                            queue.offer(new int[]{row, col - 1});
-                            grid[row][col - 1] = '0';
+                        if (curJ - 1 >= 0 && grid[rowI][curJ - 1] == '1') {
+                            grid[rowI][curJ - 1] = '0';
+                            queue.offer(new int[]{rowI, curJ - 1, curJ});
                         }
-                        if (col + 1 < n && grid[row][col + 1] == '1') {
-                            queue.offer(new int[]{row, col + 1});
-                            grid[row][col + 1] = '0';
+                        if (curJ + 1 < col && grid[rowI][curJ + 1] == '1') {
+                            grid[rowI][curJ + 1] = '0';
+                            queue.offer(new int[]{rowI, curJ + 1, curJ});
                         }
                     }
                 }
             }
         }
-        return result;
+        return count;
     }
 
-    public static int numIslands3(char[][] grid) {
-        int m = grid.length;
-        if (m == 0) {
-            return 0;
-        }
-        int n = grid[0].length;
-        int result = 0;
-
-        record Position(int i, int j) {
-        }
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+    public int numsIslands3(char[][] grid) {
+        int row = grid.length;
+        if (row == 0) return 0;
+        int col = grid[0].length;
+        int count = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (grid[i][j] == '1') {
-                    result++;
-
-                    Deque<Position> stack = new LinkedList<>();
-                    stack.push(new Position(i, j));
+                    count++;
                     grid[i][j] = '0';
-
-                    while (!stack.isEmpty()) {
-                        Position pos = stack.pop();
-                        int row = pos.i();
-                        int col = pos.j();
-
-                        if (row - 1 >= 0 && grid[row - 1][col] == '1') {
-                            grid[row - 1][col] = '0';
-                            stack.push(new Position(row - 1, col));
+                    Deque<int[]> deque = new LinkedList<>();
+                    deque.offer(new int[]{i, j});
+                    while (!deque.isEmpty()) {
+                        int[] cur = deque.poll();
+                        int rowI = cur[0], curJ = cur[1];
+                        if (rowI - 1 >= 0 && grid[rowI - 1][curJ] == '1') {
+                            grid[rowI - 1][curJ] = '0';
+                            deque.offer(new int[]{rowI - 1, curJ});
                         }
-
-                        if (row + 1 < m && grid[row + 1][col] == '1') {
-                            grid[row + 1][col] = '0';
-                            stack.push(new Position(row + 1, col));
+                        if (rowI + 1 < row && grid[rowI + 1][curJ] == '1') {
+                            grid[rowI + 1][curJ] = '0';
+                            deque.offer(new int[]{rowI + 1, curJ});
                         }
-
-                        if (col - 1 >= 0 && grid[row][col - 1] == '1') {
-                            grid[row][col - 1] = '0';
-                            stack.push(new Position(row, col - 1));
+                        if (curJ - 1 >= 0 && grid[rowI][curJ - 1] == '1') {
+                            grid[rowI][curJ - 1] = '0';
+                            deque.offer(new int[]{rowI, curJ - 1, curJ});
                         }
-
-                        if (col + 1 < n && grid[row][col + 1] == '1') {
-                            grid[row][col + 1] = '0';
-                            stack.push(new Position(row, col + 1));
+                        if (curJ + 1 < col && grid[rowI][curJ + 1] == '1') {
+                            grid[rowI][curJ + 1] = '0';
+                            deque.offer(new int[]{rowI, curJ + 1, curJ});
                         }
                     }
                 }
             }
         }
-
-        return result;
+        return count;
     }
 }

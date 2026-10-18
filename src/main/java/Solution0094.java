@@ -5,65 +5,6 @@ import java.util.*;
 //给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。
 
 public class Solution0094 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        String[] nodes = line.substring(1, line.length() - 1).split(",");
-
-        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
-
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-
-        int i = 1;
-        while (i < nodes.length) {
-            TreeNode cur = queue.poll();
-            if (i < nodes.length && !nodes[i].equals("null")) {
-                cur.left = new TreeNode(Integer.parseInt(nodes[i]));
-                queue.offer(cur.left);
-            }
-            i++;
-            if (i < nodes.length && !nodes[i].equals("null")) {
-                cur.right = new TreeNode(Integer.parseInt(nodes[i]));
-                queue.offer(cur.right);
-            }
-            i++;
-        }
-        System.out.println("---iteration---");
-        System.out.println(preorderTraversal(root));
-        System.out.println(inorderTraversal(root));
-        System.out.println(postorderTraversal(root));
-        System.out.println(levelOrderTraversal(root));
-        System.out.println("---recursive---");
-        System.out.println(recursivePreorderTraversal(root));
-        System.out.println(recursiveInorderTraversal(root));
-        System.out.println(recursivePostorderTraversal(root));
-        System.out.println(recursiveLevelOrderTraversal(root));
-        System.out.println("---morris---");
-        System.out.println(morrisPreorderTraversal(root));
-        System.out.println(morrisInorderTraversal(root));
-        System.out.println(morrisPostorderTraversal(root));
-    }
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     public static List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         if (root == null) {

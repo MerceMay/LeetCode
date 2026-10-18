@@ -10,37 +10,27 @@ import java.util.*;
 //返回到达 n - 1 的最小跳跃次数。测试用例保证可以到达 n - 1。
 
 public class Solution0045 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        int[] nums = Arrays.stream(line.substring(1, line.length() - 1).split(","))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        System.out.println(jump(nums));
-        System.out.println(jump2(nums));
-    }
-
-    public static int jump(int[] nums) {
-        int steps = 0;
+    public int jump(int[] nums) {
+        int step = 0;
         int farthest = 0;
-        int curFarthest = 0;
-        for (int i = 0; i < nums.length; i++) {
+        int prevFarthest = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
             farthest = Math.max(farthest, i + nums[i]);
-            if (i == curFarthest) {
-                curFarthest = farthest;
-                steps++;
+            if (i == prevFarthest) {
+                prevFarthest = farthest;
+                step++;
             }
         }
-        return steps;
+        return step;
     }
 
-    public static int jump2(int[] nums) {
+    public int jump2(int[] nums) {
         int steps = 0;
-        int position = nums.length - 1;
-        while (position > 0) {
-            for (int i = 0; i < position; i++) {
-                if (i + nums[i] >= position) {
-                    position = i;
+        int pos = nums.length - 1;
+        while (pos > 0) {
+            for (int i = 0; i < pos; i++) {
+                if (i + nums[i] >= pos) {
+                    pos = i;
                     steps++;
                     break;
                 }

@@ -7,16 +7,7 @@ import java.util.*;
 //返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
 
 public class Solution0121 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        int[] prices = Arrays.stream(line.substring(1, line.length() - 1).split(","))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        System.out.println(maxProfit(prices));
-    }
-
-    public static int maxProfit(int[] prices) {
+    public int maxProfit(int[] prices) {
         int minPrice = Integer.MAX_VALUE;
         int maxProfit = 0;
         for (int price : prices) {

@@ -7,25 +7,19 @@ import java.util.*;
 //返回一个表示每个字符串片段的长度的列表。
 
 public class Solution0763 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        System.out.println(partitionLabels(s));
-    }
-
-    public static List<Integer> partitionLabels(String s) {
+    public List<Integer> partitionLabels(String s) {
         int[] last = new int[26];
         for (int i = 0; i < s.length(); i++) {
             last[s.charAt(i) - 'a'] = i;
         }
-        int farthest = 0;
-        int lastIndex = 0;
         List<Integer> result = new ArrayList<>();
+        int farthest = 0;
+        int lastI = 0;
         for (int i = 0; i < s.length(); i++) {
             farthest = Math.max(farthest, last[s.charAt(i) - 'a']);
             if (i == farthest) {
-                result.add(i - lastIndex + 1);
-                lastIndex = i + 1;
+                result.add(i - lastI + 1);
+                lastI = i + 1;
             }
         }
         return result;

@@ -8,43 +8,7 @@ import java.util.*;
 //函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。
 
 public class Solution0146 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line1 = sc.nextLine();
-        String line2 = sc.nextLine();
-        String[] operations = Arrays.stream(line1.substring(1, line1.length() - 1).split(","))
-                .map(s -> s.trim().replace("\"", ""))
-                .toArray(String[]::new);
-        int[][] argList = Arrays.stream(line2.substring(2, line2.length() - 2).split("],\\s*\\["))
-                .map(s -> Arrays.stream(s.split(","))
-                        .map(String::trim)
-                        .mapToInt(Integer::parseInt)
-                        .toArray())
-                .toArray(int[][]::new);
-        LRUCache cache = null;
-        System.out.print("[");
-        for (int i = 0; i < operations.length; i++) {
-            if (i > 0) {
-                System.out.print(", ");
-            }
-            switch (operations[i]) {
-                case "LRUCache":
-                    cache = new LRUCache(argList[i][0]);
-                    System.out.print("null");
-                    break;
-                case "put":
-                    cache.put(argList[i][0], argList[i][1]);
-                    System.out.print("null");
-                    break;
-                case "get":
-                    System.out.print(cache.get(argList[i][0]));
-                    break;
-            }
-        }
-        System.out.println("]");
-    }
-
-    public static class LRUCache {
+    class LRUCache {
 
         private static class Node {
             int key, value;
@@ -66,8 +30,8 @@ public class Solution0146 {
         private Map<Integer, Node> map = new HashMap<>();
 
         public LRUCache(int capacity) {
-            this.size = 0;
             this.capacity = capacity;
+            this.size = 0;
             head = new Node();
             tail = new Node();
             head.next = tail;
@@ -97,8 +61,8 @@ public class Solution0146 {
                     size--;
                 }
             } else {
-                node.value = value;
                 moveToHead(node);
+                node.value = value;
             }
         }
 

@@ -5,29 +5,23 @@ import java.util.*;
 //给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
 
 public class Solution0017 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String digits = sc.nextLine();
-        System.out.println(letterCombinations(digits));
-    }
 
-    private static String[] map = {"", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-
-    public static List<String> letterCombinations(String digits) {
+    public List<String> letterCombinations(String digits) {
+        String[] map = {"", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "xyz"};
         List<String> result = new ArrayList<>();
-        backtrack(digits, result, new StringBuilder(), 0);
+        backtrack(digits, result, new StringBuilder(), 0, map);
         return result;
     }
 
-    private static void backtrack(String digits, List<String> result, StringBuilder sb, int index) {
+    public void backtrack(String digits, List<String> result, StringBuilder sb, int index, String[] map) {
         if (index == digits.length()) {
             result.add(sb.toString());
             return;
         }
-        String candidate = map[digits.charAt(index) - '1'];
-        for (int j = 0; j < candidate.length(); j++) {
-            sb.append(candidate.charAt(j));
-            backtrack(digits, result, sb, index + 1);
+        String s = map[digits.charAt(index) - '1'];
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            backtrack(digits, result, sb, index + 1, map);
             sb.deleteCharAt(sb.length() - 1);
         }
     }

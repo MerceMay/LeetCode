@@ -9,13 +9,7 @@ import java.util.*;
 //每个右括号都有一个对应的相同类型的左括号。
 
 public class Solution0020 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        System.out.println(isValid(s));
-    }
-
-    public static boolean isValid(String s) {
+    public boolean isValid(String s) {
         int n = s.length();
         if (n % 2 == 1) {
             return false;
@@ -27,7 +21,7 @@ public class Solution0020 {
             put('}', '{');
         }};
 
-        Deque<Character> stack = new LinkedList<>();
+        Deque<Character> stack = new ArrayDeque<>();
         for (char c : s.toCharArray()) {
             if (map.containsKey(c)) {
                 if (stack.isEmpty() || stack.peek() != map.get(c)) {

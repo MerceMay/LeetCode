@@ -7,23 +7,13 @@ import java.util.*;
 //对于给定的输入，保证和为 target 的不同组合数少于 150 个。
 
 public class Solution0039 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        int target = sc.nextInt();
-        int[] candidates = Arrays.stream(line.substring(1, line.length() - 1).split(","))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        System.out.println(combinationSum(candidates, target));
-    }
-
-    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
-        backtrack2(candidates, result, new ArrayList<>(), 0, target);
+        backtrack(candidates, target, new ArrayList<>(), 0, result);
         return result;
     }
 
-    private static void backtrack(int[] candidates, List<List<Integer>> result, List<Integer> path, int index, int target) {
+    public void backtrack(int[] candidates, int target, List<Integer> path, int index, List<List<Integer>> result) {
         if (target == 0) {
             result.add(new ArrayList<>(path));
             return;
@@ -33,12 +23,12 @@ public class Solution0039 {
         }
         for (int i = index; i < candidates.length; i++) {
             path.add(candidates[i]);
-            backtrack(candidates, result, path, i, target - candidates[i]);
+            backtrack(candidates, target - candidates[i], path, i, result);
             path.remove(path.size() - 1);
         }
     }
 
-    private static void backtrack2(int[] candidates, List<List<Integer>> result, List<Integer> path, int index, int target) {
+    public void backtrack2(int[] candidates, int target, List<Integer> path, int index, List<List<Integer>> result) {
         if (index == candidates.length) {
             return;
         }
@@ -50,8 +40,8 @@ public class Solution0039 {
             return;
         }
         path.add(candidates[index]);
-        backtrack2(candidates, result, path, index, target - candidates[index]);
+        backtrack2(candidates, target - candidates[index], path, index, result);
         path.remove(path.size() - 1);
-        backtrack2(candidates, result, path, index + 1, target);
+        backtrack2(candidates, target, path, index + 1, result);
     }
 }
